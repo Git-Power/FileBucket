@@ -99,7 +99,7 @@ router.post('/buckets', [requireToken, bucket.single('image')], (req, res) => {
     // add step to delete file (create function elsewhere using fs.DELETE
     // file path will be buckets/filename)
       console.error(err)
-     deleteFromApi()
+      deleteFromApi()
     })
   // respond to succesful `create` with status 201 and JSON of new “upload”
   // .then(upload => {
@@ -117,7 +117,7 @@ router.patch('/buckets/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
   delete req.body.bucket.owner
-
+  console.log('hello')
   Bucket.findById(req.params.id)
     .then(handle404)
     .then(bucket => {
