@@ -25,9 +25,11 @@ const requireOwnership = customErrors.requireOwnership
 // it will also set `req.user`
 const requireToken = passport.authenticate('bearer', { session: false })
 
-const multer  = require(‘multer’)
-const bucket = multer({ dest: buckets/’ })
-const s3Upload = require(‘../../lib/aws-s3-upload’)
+const multer = require('multer')
+const bucket = multer({ dest: 'buckets/' })
+const s3Upload = require('../../lib/aws-s3-upload')
+
+const fs = require('fs')
 
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
@@ -36,7 +38,7 @@ const router = express.Router()
 // GET /examples
 router.get('/buckets', requireToken, (req, res) => {
   Bucket.find()
-    .then(bucket => {
+    .then(buckets => {
       // `examples` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
       // apply `.toObject` to each one
@@ -60,33 +62,53 @@ router.get('/buckets/:id', requireToken, (req, res) => {
     .catch(err => handle(err, res))
 })
 
+// once s3 is done, delete it
 // CREATE
 // POST /examples
-router.post(‘/buckets, [requireToken, bucket.single(‘image’)], (req, res) => {
- s3Upload(req.file.path, req.file.originalname, req.body.title)
-   .then((response) => {
-     console.log(response.Location)
-     // set owner of new upload to be current user
-     // req.body.upload.owner = req.user.id
-     return Bucket.create({
-       tags: req.body.title,
-       url: response.Location,
-       owner: req.user.id
-     })
-   })
-   // respond wtih json
-   .then((bucket) => {
-     res.status(201).json({ bucket: bucket.toObject() })
-   })
-   .catch(console.error)
-   // respond to succesful `create` with status 201 and JSON of new “upload”
-   // .then(upload => {
-   //   res.status(201).json({ upload: upload.toObject() })
-   // })
-   // if an error occurs, pass it off to our error handler
-   // the error handler needs the error message and the `res` object so that it
-   // can send an error message back to the client
-   // .catch(err => handle(err, res))
+router.post('/buckets', [requireToken, bucket.single('image')], (req, res) => {
+  // look into req file to confirm information matches schema
+  const deleteFromApi = () => {
+    fs.unlink(req.file.path, function (err) {
+      if (err) throw err
+      console.log('Filed Deleted')
+    })
+  }
+
+  s3Upload(req.file.path, req.file.originalname, req.file.tags) // make sure
+  // s3Upload function expects the right number of arguments
+    .then((response) => {
+      console.log(response.Location)
+      console.log(req.user.id)
+      // set owner of new upload to be current user
+      // req.body.bucket.owner = req.user.id
+      return Bucket.create({
+        tags: req.body.tags,
+        url: response.Location,
+        owner: req.user.id
+      })
+    })
+  // respond wtih json
+    .then((bucket) => {
+      // add step to delete file (create function elsewhere using fs.DELETE
+      // file path will be buckets/filename)
+      res.status(201).json({ bucket: bucket.toObject() })
+      deleteFromApi()
+    })
+
+    .catch((err) => {
+    // add step to delete file (create function elsewhere using fs.DELETE
+    // file path will be buckets/filename)
+      console.error(err)
+     deleteFromApi()
+    })
+  // respond to succesful `create` with status 201 and JSON of new “upload”
+  // .then(upload => {
+  //   res.status(201).json({ upload: upload.toObject() })
+  // })
+  // if an error occurs, pass it off to our error handler
+  // the error handler needs the error message and the `res` object so that it
+  // can send an error message back to the client
+  // .catch(err => handle(err, res))
 })
 
 // UPDATE
@@ -126,7 +148,7 @@ router.patch('/buckets/:id', requireToken, (req, res) => {
 router.delete('/buckets/:id', requireToken, (req, res) => {
   Bucket.findById(req.params.id)
     .then(handle404)
-    .then(example => {
+    .then(bucket => {
       // throw an error if current user doesn't own `example`
       requireOwnership(req, bucket)
       // delete the example ONLY IF the above didn't throw
