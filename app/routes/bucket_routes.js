@@ -117,7 +117,7 @@ router.patch('/buckets/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
   delete req.body.bucket.owner
-  console.log('hello')
+  console.log('hello, I am your patch route')
   Bucket.findById(req.params.id)
     .then(handle404)
     .then(bucket => {
@@ -133,7 +133,6 @@ router.patch('/buckets/:id', requireToken, (req, res) => {
           delete req.body.bucket[key]
         }
       })
-
       // pass the result of Mongoose's `.update` to the next `.then`
       return bucket.update(req.body.bucket)
     })
