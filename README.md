@@ -12,9 +12,25 @@ AUTH ROUTES:
 4. UPDATE - PATCH
 5. DELETE - DELETE
 
+TECHOLOGIES:
+1. Mongoose
+2. Express
+3. MongoDB
+4. multer
+6. passport
+7. aws-sdk
+8. bcrypt
 
-FILE BUCKET CLIENT REPOSITORY GITHUB/HEROKU:
-https://github.com/Git-Power/FileBucket-client
+Document your planning, process and problem-solving strategy:
+1. Trello
+2. Stand Ups
+3. For problem solving, we exhausted every possibility within our abilities, if issue was not resolved, we put in a issue.
+4. Para-programming
+6. Collaboration 
 
+
+FILE BUCKET REPOSITORY GITHUB:
+https://github.com/Git-Power/FileBucket/
+HEROKU:
 https://stormy-crag-73344.herokuapp.com/
 
