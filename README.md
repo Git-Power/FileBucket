@@ -6,7 +6,7 @@
 FILE BUCKET BACKEND RESPOSITORY:
 https://github.com/Git-Power/FileBucket
 
-AUTH ROUTES:
+AUTH/BUCKETS ROUTES:
 1. CREATE - POST
 2. SHOW - GET
 3. INDEX - GET
@@ -26,12 +26,22 @@ Document your planning, process and problem-solving strategy:
 1. Trello
 2. Stand Ups
 3. For problem solving, we exhausted every possibility within our abilities, if issue was not resolved, we put in a issue.
-4. Para-programming
+4. Pair-programming
 6. Collaboration 
+
+LIST OF PROBLEMS/FIXABLE:
+1. Dedicated download route. 
+
 
 
 FILE BUCKET REPOSITORY GITHUB:
 https://github.com/Git-Power/FileBucket/
+
 HEROKU:
 https://stormy-crag-73344.herokuapp.com/
 
+FILE BUCKET CLIENT REPOSITORY:
+https://github.com/Git-Power/FileBucket-client
+
+FILE BUCKET CLIENT GITHUB PAGES:
+https://git-power.github.io/FileBucket-client/
