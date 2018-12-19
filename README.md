@@ -1,6 +1,7 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-[![ERD](https://imgur.com/TmfwsAa)]
+![image from ios](https://user-images.githubusercontent.com/38407813/50248393-dd146080-03a8-11e9-9f3b-eec64e752bb1.jpg)
+
 
 FILE BUCKET BACKEND RESPOSITORY:
 https://github.com/Git-Power/FileBucket
